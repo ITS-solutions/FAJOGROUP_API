@@ -26,6 +26,6 @@ class UsersSeeder extends Seeder
             'type_identification_id' => 1
         ]);
 
-        // $user->roles()->syncWithoutDetaching([1]);
+        $user->assignRole('admin');
     }
 }

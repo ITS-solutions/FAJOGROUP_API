@@ -1,13 +1,11 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Administrative\TypeIdentificationController;
+use App\Http\Controllers\Administrative\UserController;
+use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
+// Auth Routes
 Route::group([
     'middleware' => ['auth:sanctum'],
     'prefix' => 'auth'
@@ -15,4 +13,18 @@ Route::group([
     Route::post('/login', [AuthController::class, 'login'])->withoutMiddleware('auth:sanctum');
     Route::get('me', [AuthController::class, 'me']);
     Route::get('/logout', [AuthController::class, 'logout']);
+});
+
+// Administrative Routes
+Route::group([
+    'middleware' => ['auth:sanctum'],
+    'prefix' => 'administrative'
+], function () {
+
+    // Type Identification Routes
+    Route::resource('type-identifications', TypeIdentificationController::class);
+
+    // User Routes
+    Route::resource('users', UserController::class);
+    
 });

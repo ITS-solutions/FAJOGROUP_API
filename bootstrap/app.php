@@ -1,10 +1,13 @@
 <?php
 
+use App\Facades\ApiResponse;
+use App\Http\Middleware\ForceJsonRequestHeader;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -14,14 +17,18 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->append([
+            ForceJsonRequestHeader::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
+        // Global Authentication Exception
         $exceptions->render(function (AuthenticationException $e, Request $request) {
-            if ($request->is('api/*')) {
-                return response()->json([
-                    'message' => 'Not authenticated'
-                ], 401);
-            }
+            return ApiResponse::error('Unauthorized', 401);
+        });
+
+        // Global Not Found Http Exception
+        $exceptions->render(function (NotFoundHttpException $e, Request $request) {
+            return ApiResponse::error('Not Found', 404);
         });
     })->create();
