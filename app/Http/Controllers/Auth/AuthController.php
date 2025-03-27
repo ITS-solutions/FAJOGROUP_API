@@ -95,36 +95,4 @@ class AuthController extends Controller
             'user' => $user,
         ]);
     }
-
-    /**
-     * Get the permissions grouped by their parts.
-     *
-     * @return array|null
-     */
-    private function getGroupedPermissions()
-    {
-        $permissions = Auth::user()->getAllPermissions();
-        if($permissions->isEmpty()) {
-            return null;
-        }
-
-        $groupedPermissions = [];
-
-        foreach ($permissions as $permission) {
-            $parts = explode('.', $permission->name);
-            $currentLevel = &$groupedPermissions;
-
-            foreach ($parts as $part) {
-                if (!isset($currentLevel[$part])) {
-                    $currentLevel[$part] = [];
-                }
-                $currentLevel = &$currentLevel[$part];
-            }
-
-            // Assign the permission name to the deepest level
-            $currentLevel = $permission->name;
-        }
-
-        return $groupedPermissions;
-    }
 }
