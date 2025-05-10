@@ -30,7 +30,7 @@ class MakeResourceCommand extends Command
 
         // 1. Create model and migration
         $this->call('make:model', [
-            'name'        => "Models/{$name}",
+            'name'        => "{$name}",
             '--migration' => true,
         ]);
 
