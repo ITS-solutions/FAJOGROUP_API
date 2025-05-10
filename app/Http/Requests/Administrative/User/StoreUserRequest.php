@@ -78,21 +78,4 @@ class StoreUserRequest extends FormRequest
             'roles.*.exists' => 'Uno o más de los roles seleccionados no existen en el sistema.',
         ];
     }
-
-    /**
-     * Maneja una falla en la validación.
-     *
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
-     * @throws \Illuminate\Http\Exceptions\HttpResponseException
-     */
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(
-            ApiResponse::error(
-                'Errores en el formulario',
-                422,
-                $validator->errors()
-            )
-        );
-    }
 }

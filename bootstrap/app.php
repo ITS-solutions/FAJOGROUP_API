@@ -1,5 +1,6 @@
 <?php
 
+use App\Console\Commands\MakeResourceCommand;
 use App\Facades\ApiResponse;
 use App\Http\Middleware\ForceJsonRequestHeader;
 use Illuminate\Auth\AuthenticationException;
@@ -7,6 +8,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -31,4 +33,13 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {
             return ApiResponse::error('Not Found', 404);
         });
-    })->create();
+
+        // Global Validation Exception
+        $exceptions->render(function (ValidationException $e, Request $request) {
+            return ApiResponse::error('Errores en el formulario', 422, $e->errors());
+        });
+    })
+    ->withCommands([
+        MakeResourceCommand::class,
+    ])
+    ->create();

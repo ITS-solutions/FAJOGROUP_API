@@ -71,23 +71,6 @@ class UpdateRoleRequest extends FormRequest
     }
 
     /**
-     * Maneja una falla en la validación.
-     *
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
-     * @throws \Illuminate\Http\Exceptions\HttpResponseException
-     */
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(
-            ApiResponse::error(
-                'Errores en el formulario',
-                422,
-                $validator->errors()
-            )
-        );
-    }
-
-    /**
      * Extrae los permisos asignados del arreglo de permisos.
      *
      * @param  array  $permissions

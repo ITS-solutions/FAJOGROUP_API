@@ -61,23 +61,4 @@ class UpdateTypeIdentificationRequest extends FormRequest
             'alphanumeric.boolean' => 'El campo alfanumérico debe ser verdadero o falso.',
         ];
     }
-
-    /**
-     * Maneja una falla en la validación.
-     *
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
-     * @return void
-     *
-     * @throws \Illuminate\Http\Exceptions\HttpResponseException
-     */
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(
-            ApiResponse::error(
-                'Errores en el formulario',
-                422,
-                $validator->errors()
-            )
-        );
-    }
 }
