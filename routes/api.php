@@ -4,6 +4,8 @@ use App\Http\Controllers\Administrative\RoleController;
 use App\Http\Controllers\Administrative\TypeIdentificationController;
 use App\Http\Controllers\Administrative\UserController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\LotteryController;
+use App\Http\Controllers\RaffleCategoryController;
 use Illuminate\Support\Facades\Route;
 
 // Auth Routes
@@ -30,6 +32,14 @@ Route::group([
     Route::resource('type-identifications', TypeIdentificationController::class);
 
     // User Routes
-    Route::resource('users', UserController::class);
+    Route::resource('users', UserController::class);    
+});
 
+// Raffles Routes
+Route::group([
+    'prefix' => 'raffles'
+], function () {
+    // Categories Routes
+    Route::resource('lotteries', LotteryController::class);
+    Route::resource('categories', RaffleCategoryController::class);
 });
