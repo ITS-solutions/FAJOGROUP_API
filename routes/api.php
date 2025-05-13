@@ -5,6 +5,7 @@ use App\Http\Controllers\Administrative\TypeIdentificationController;
 use App\Http\Controllers\Administrative\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\LotteryController;
+use App\Http\Controllers\PaymentMethodsController;
 use App\Http\Controllers\RaffleCategoryController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,4 +43,12 @@ Route::group([
     // Categories Routes
     Route::resource('lotteries', LotteryController::class);
     Route::resource('categories', RaffleCategoryController::class);
+});
+
+// Settings Routes
+Route::group([
+    'prefix' => 'settings'
+], function () {
+    // Categories Routes
+    Route::resource('payment-methods', PaymentMethodsController::class);
 });
