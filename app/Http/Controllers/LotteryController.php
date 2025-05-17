@@ -6,7 +6,7 @@ use App\Facades\ApiResponse;
 use App\Http\Requests\Lottery\StoreLotteryRequest;
 use App\Http\Requests\Lottery\UpdateLotteryRequest;
 use App\Models\Lottery;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class LotteryController extends Controller
 {
@@ -47,6 +47,11 @@ class LotteryController extends Controller
     public function update(UpdateLotteryRequest $request, Lottery $lottery)
     {
         if($request->hasFile('image_file')) {
+            // remove the image from storage
+            if ($lottery->image) {
+                Storage::disk('public')->delete($lottery->image);
+            }
+
             // Save the image and get the path
             $imagePath = $request->file('image_file')->store('lotteries', 'public');
             // Add the image path to the request data
@@ -62,6 +67,11 @@ class LotteryController extends Controller
      */
     public function destroy(Lottery $lottery)
     {
+        // remove the image from storage
+        if ($lottery->image) {
+            Storage::disk('public')->delete($lottery->image);
+        }
+
         $lottery->delete();
         return ApiResponse::success(null, 'Lotería eliminada correctamente');
     }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\LotteryController;
 use App\Http\Controllers\PaymentMethodsController;
 use App\Http\Controllers\RaffleCategoryController;
+use App\Http\Controllers\RaffleController;
 use Illuminate\Support\Facades\Route;
 
 // Auth Routes
@@ -37,6 +38,7 @@ Route::group([
 });
 
 // Raffles Routes
+Route::resource('raffles', RaffleController::class);
 Route::group([
     'prefix' => 'raffles'
 ], function () {
